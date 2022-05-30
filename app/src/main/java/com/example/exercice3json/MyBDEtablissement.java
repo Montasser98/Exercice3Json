@@ -1,5 +1,6 @@
 package com.example.exercice3json;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -20,11 +21,23 @@ public abstract class MyBDEtablissement extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+        String sql = "create table " + TABLE_NAME + "(" + COL1 + " text primary key," + COL2 + " text," + COL3 + " text," + COL4 + " integer)";
+        sqLiteDatabase.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        String sql = "DROP TABLE " + TABLE_NAME;
+        sqLiteDatabase.execSQL(sql);
+        onCreate(sqLiteDatabase);
+    }
+    public static long insert_filiere(SQLiteDatabase sqLiteDatabase, Filiere fil){
+        ContentValues ct = new ContentValues();
+        ct.put(COL1, fil.getCode());
+        ct.put(COL2, fil.getDescription());
+        ct.put(COL3, fil.getNiveau());
+        ct.put(COL4, fil.getNbModule());
+        return  sqLiteDatabase.insert(TABLE_NAME,null,ct);
 
     }
 }

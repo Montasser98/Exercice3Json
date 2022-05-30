@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView t1, t2, t3;
     ListView lst;
-
+    MyBDEtablissement db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         t2 = findViewById(R.id.adr);
         t3 = findViewById(R.id.specialite);
         lst = findViewById(R.id.lst);
+        MyBDEtablissement dbo;
         Etabilessement ee = getEtablissementFromJSON();
 
         t1.setText("Nom Etablissement : " + ee.getNom());
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < ee.getFilieres().size(); i++) {
             fils.add(ee.getFilieres().get(i).getDescription() + " - " + ee.getFilieres().get(i).getNbModule());
         }
+        for(Filiere ff : ee.getFilieres())
+            MyBDEtablissement.insert_filiere(db.getWritableDatabase(),ff);
 
         ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_list_item_1, fils);
         lst.setAdapter(ad);
